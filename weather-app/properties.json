@@ -1,0 +1,5 @@
+{
+    "url": {
+            "weatherstack": "http://api.weatherstack.com/current?access_key=e26270d2de1e16f08706c45e8bfa3666"
+        }
+}

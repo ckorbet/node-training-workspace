@@ -1,7 +1,7 @@
 {
-  "name": "note-app",
+  "name": "weather-app",
   "version": "1.0.0",
-  "description": "Note app by Carlos",
+  "description": "Weather app by Carlos",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

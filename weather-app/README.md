@@ -15,4 +15,4 @@ At the moment of this training/course:
 * [Chalk 4.1.0](https://www.npmjs.com/package/chalk)
 * [Validator 13.5.2](https://www.npmjs.com/package/validator)
 * [Yargs 16.2.0](https://www.npmjs.com/package/yargs)
-* [Request 2.88.2](https://www.npmjs.com/package/request)
+* [Request 2.88.2](https://www.npmjs.com/package/request) _(worth also seeing [postman-request](https://www.npmjs.com/package/postman-request))_

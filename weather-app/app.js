@@ -13,3 +13,19 @@ request({url: theUrl}, (error, response) => {
         console.log(chalk.red.bold(error));
     } 
 });
+
+// Notice the json option. No need of parsing
+request({
+        url: theUrl,
+        json: true
+    },
+    (error, response) => {
+        if (error === null) {
+            if (response.statusCode === 200) {
+                console.log(chalk.magenta('Request correctly done and json-parsed!!'));
+                console.log(response.body);
+            }
+        } else {
+            console.log(chalk.red.bold(error));
+        }
+    });

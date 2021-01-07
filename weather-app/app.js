@@ -3,7 +3,7 @@ const chalk = require('chalk');
 const yargs = require('yargs');
 const properties = require('./properties.json');
 
-const forecastHandler = function (argv) {
+const forecastHandler = (argv) => {
     console.log(chalk.yellow('Forecasting weather:'));
     console.log(chalk.green('  City: ') + argv.city);
     console.log(chalk.magenta('  Requesting...'));
@@ -20,7 +20,7 @@ const forecastHandler = function (argv) {
     });
 };
 
-const geolocationHandler = function(argv) {
+const geolocationHandler = (argv) => {
     console.log(chalk.yellow('Geolocating city:'));
     console.log(chalk.green('  City: ') + argv.city);
     console.log(chalk.magenta('  Requesting coordinates...'));

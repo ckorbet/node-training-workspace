@@ -1,0 +1,12 @@
+{
+    "externalUrl": {
+        "weatherstack": "http://api.weatherstack.com/current?access_key=e26270d2de1e16f08706c45e8bfa3666",
+        "mapbox": "https://api.mapbox.com/geocoding/v5/mapbox.places/{location}.json?access_token=pk.eyJ1IjoiY2tvcmJldCIsImEiOiJja2ptbXhma2IwanRhMnh0ZnN4ZmV3bGpyIn0.Zk_d9r6a7fRjWY3gawErlQ"
+    },
+    "internalUrl": {
+        "help": "/help",
+        "about": "/about",
+        "weather": "/weather",
+        "license": "/license"
+    }
+}

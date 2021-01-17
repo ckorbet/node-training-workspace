@@ -19,3 +19,4 @@ At the moment of this training/course:
 * [Yargs 16.2.0](https://www.npmjs.com/package/yargs)
 * [Request 2.88.2](https://www.npmjs.com/package/request) _(worth also seeing [postman-request](https://www.npmjs.com/package/postman-request))_
 * [Express 4.17.1](http://expressjs.com/)
+* [Handlebars 4.7.6](https://www.npmjs.com/package/handlebars)

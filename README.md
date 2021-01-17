@@ -6,4 +6,5 @@
 
 * notes-app
 * weather-app
+* web-server
 

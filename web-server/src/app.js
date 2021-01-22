@@ -1,25 +1,32 @@
 const path = require('path');
-const express = require('express');
 const chalk = require('chalk');
+const express = require('express');
 const exphbs = require('express-handlebars');
 
 const properties = require('./properties.json');
 
 const publicStaticContentPath = path.join(__dirname, '../public');
-const publicDinamicContentPath = path.join(__dirname, '../view');
+const layoutsDefaultContentPath = path.join(__dirname, '../views');
+const partialsDefaultContentPath = path.join(__dirname, '../views/partials');
+const defaultPort = 3000;
 
 // this creates an express web-server application
 const app = express();
 
-// this set up the view engine for dinamic content/templates
-app.engine('hbs', exphbs.create().engine);
-app.engine('hbs', exphbs({extname: '.hbs'}));
-app.set('view engine', 'hbs'); // hbs == handlebars
-// this set up the directory of the dinami  c views for handlebars
-app.set('views', publicDinamicContentPath);
-
-// this set up the path/directory of the public/static content to be served
-app.use(express.static(publicStaticContentPath));
+/*
+ * THIS SET UP THE SERVER CONFIG FOR TEMPLATING
+ */
+const handlebars = exphbs.create({ // express-handlebars engine config
+    extname      : 'hbs',
+    defaultView  : 'index',
+    layoutsDir   : layoutsDefaultContentPath,
+    defaultLayout: 'index',
+    partialsDir  : partialsDefaultContentPath
+});
+app.engine('hbs', handlebars.engine); // this set up the templating engine
+app.set('view engine', 'hbs'); // this set up the view engine
+app.use(express.static(publicStaticContentPath)); // this set up the default public content directory
+app.set('views', layoutsDefaultContentPath); // this se upt the default engine view directory
 
 // app.get('', (request, response) => {
 //     response.send('Hello express!!');
@@ -35,7 +42,9 @@ app.use(express.static(publicStaticContentPath));
 
 app.get('', (request, response) => {
     // name of the item to render must match exactly the name of the file in 'view' directory
-    response.render('index'); 
+    response.render('index', {
+        name: 'Carlos Torres'
+    }); 
 });
 
 app.get(properties.internalUrl.weather, (request, response) => {
@@ -53,11 +62,11 @@ app.get(properties.internalUrl.license, (request, response) => {
 });
 
 // this starts up the server at indicated port 
-app.listen(3000, () => {
-    console.log(chalk.yellow('Server up and runnig in port 3000 !!'));
+app.listen(defaultPort, () => {
+    console.log(chalk.yellow('Server up and runnig in port ' + defaultPort + ' !!'));
     console.log(chalk.magenta('  Dirname: ') + __dirname);
     console.log(chalk.magenta('  Filename: ') + __filename);
     console.log(chalk.magenta('  Public static content path: ') + publicStaticContentPath);
-    console.log(chalk.magenta('  Public dinamic content path: ') + publicDinamicContentPath);
-    
+    console.log(chalk.magenta('  Default layouts content path: ') + layoutsDefaultContentPath);
+    console.log(chalk.magenta('  Default partials content path: ') + partialsDefaultContentPath);    
 }); 

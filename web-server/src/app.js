@@ -18,7 +18,7 @@ const app = express();
  */
 const handlebars = exphbs.create({ // express-handlebars engine config
     extname      : 'hbs',
-    defaultView  : 'index',
+    // defaultView  : 'index',
     layoutsDir   : layoutsDefaultContentPath,
     defaultLayout: 'index',
     partialsDir  : partialsDefaultContentPath
@@ -32,13 +32,13 @@ app.set('views', layoutsDefaultContentPath); // this se upt the default engine v
 //     response.send('Hello express!!');
 // });
 
-// app.get(properties.internalUrl.help, (request, response) => {
-//     response.send('Help page');
-// });
+app.get(properties.internalUrl.help, (request, response) => {
+    response.render('help');
+});
 
-// app.get(properties.internalUrl.about, (request, response) => {
-//     response.send('About page');
-// });
+app.get(properties.internalUrl.about, (request, response) => {
+    response.render('about');
+});
 
 app.get('', (request, response) => {
     // name of the item to render must match exactly the name of the file in 'view' directory

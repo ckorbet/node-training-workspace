@@ -4,6 +4,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 
 const properties = require('./properties.json');
+const { workers } = require('cluster');
 
 const publicStaticContentPath = path.join(__dirname, '../public');
 const layoutsDefaultContentPath = path.join(__dirname, '../views');
@@ -67,6 +68,23 @@ app.get(properties.internalUrl.weather, (request, response) => {
 
 app.get(properties.internalUrl.license, (request, response) => {
     response.send('<h1>License</h1>');
+});
+
+app.get('/help/*', (request, response) => {
+    response.render('error', {
+        errorText: 'Content under construction',
+        imgSrc: './img/underConstruction'
+    });
+});
+
+// '*' means anything all URLs that doesnt already been match
+// This needs to be mandatorily the last one as per express workers.
+// Express see for URLs matches from top-to-bottom
+app.get('*', (request, response) => {
+    response.render('error', {
+        errorText: 'Page not found',
+        imgSrc: './img/404error.png'
+    });
 });
 
 // this starts up the server at indicated port 

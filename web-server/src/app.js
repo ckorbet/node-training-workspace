@@ -21,7 +21,7 @@ const handlebars = exphbs.create({ // express-handlebars engine config
     // defaultView  : 'index',
     layoutsDir   : layoutsDefaultContentPath,
     defaultLayout: 'index',
-    partialsDir  : partialsDefaultContentPath
+    partialsDir  : partialsDefaultContentPath 
 });
 app.engine('hbs', handlebars.engine); // this set up the templating engine
 app.set('view engine', 'hbs'); // this set up the view engine
@@ -33,17 +33,25 @@ app.set('views', layoutsDefaultContentPath); // this se upt the default engine v
 // });
 
 app.get(properties.internalUrl.help, (request, response) => {
-    response.render('help');
+    response.render('help', {
+        tittle: 'This is the dynamic help tittle',
+        footer: 'This is the dynamic help footer'
+    });
 });
 
 app.get(properties.internalUrl.about, (request, response) => {
-    response.render('about');
+    response.render('about', {
+        tittle: 'This is the dynamic about tittle',
+        footer: 'This is the dynamic about footer'
+    });
 });
 
 app.get('', (request, response) => {
     // name of the item to render must match exactly the name of the file in 'view' directory
     response.render('index', {
-        name: 'Carlos Torres'
+        name: 'Carlos Torres',
+        tittle: 'This is the dynamic index tittle',
+        footer: 'This is the dynamic index footer'
     }); 
 });
 

@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars');
 
 const properties = require('./properties.json');
 const { workers } = require('cluster');
+const { query } = require('express');
 
 const publicStaticContentPath = path.join(__dirname, '../public');
 const layoutsDefaultContentPath = path.join(__dirname, '../views');
@@ -56,25 +57,19 @@ app.get('', (request, response) => {
     }); 
 });
 
-app.get(properties.internalUrl.weather, (request, response) => {
-    let myJsonResponse = {
-        'myWeather': {
-            'forecast': 'This is my forecast',
-            'location': 'This is my location'
-        }
-    };
-    response.send(myJsonResponse);
-});
-
 app.get(properties.internalUrl.license, (request, response) => {
     response.send('<h1>License</h1>');
 });
 
-app.get('/weather', (request, response) => {
-    response.send({
-        forecas: 'It is snowing',
-        location: 'Valencia'
-    });
+app.get(properties.internalUrl.weather, (request, response) => {
+    if(!request.query.address) {
+        response.send({ error: 'address query param required'});
+    } else {
+        response.send({
+            forecas: '',
+            location: request.query.address
+        });
+    }
 });
 
 // Be aware of not returning two responses when actually only one can be sent

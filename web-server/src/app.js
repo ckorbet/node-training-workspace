@@ -70,6 +70,24 @@ app.get(properties.internalUrl.license, (request, response) => {
     response.send('<h1>License</h1>');
 });
 
+app.get('/weather', (request, response) => {
+    response.send({
+        forecas: 'It is snowing',
+        location: 'Valencia'
+    });
+});
+
+// Be aware of not returning two responses when actually only one can be sent
+app.get('/product', (request, response) => {
+    if(!request.query.param1) { // This is the way we can retrieve query params
+        response.send({ error: 'param1 required'});
+    } else {
+        console.log(request.query);
+            response.send({        
+        });    
+    }
+});
+
 app.get('/help/*', (request, response) => {
     response.render('error', {
         errorText: 'Content under construction',

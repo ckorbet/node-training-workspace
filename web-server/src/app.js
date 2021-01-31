@@ -4,6 +4,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 
 const properties = require('./properties.json');
+const log = require('./utils/winston');
 const { workers } = require('cluster');
 const { query } = require('express');
 
@@ -77,8 +78,8 @@ app.get('/product', (request, response) => {
     if(!request.query.param1) { // This is the way we can retrieve query params
         response.send({ error: 'param1 required'});
     } else {
-        console.log(request.query);
-            response.send({        
+        log.info(request.query);
+        response.send({        
         });    
     }
 });
@@ -102,10 +103,10 @@ app.get('*', (request, response) => {
 
 // this starts up the server at indicated port 
 app.listen(defaultPort, () => {
-    console.log(chalk.yellow('Server up and runnig in port ' + defaultPort + ' !!'));
-    console.log(chalk.magenta('  Dirname: ') + __dirname);
-    console.log(chalk.magenta('  Filename: ') + __filename);
-    console.log(chalk.magenta('  Public static content path: ') + publicStaticContentPath);
-    console.log(chalk.magenta('  Default layouts content path: ') + layoutsDefaultContentPath);
-    console.log(chalk.magenta('  Default partials content path: ') + partialsDefaultContentPath);    
+    log.info(chalk.yellow('Server up and runnig in port ' + defaultPort + ' !!'));
+    log.info(chalk.magenta('  Dirname: ') + __dirname);
+    log.info(chalk.magenta('  Filename: ') + __filename);
+    log.info(chalk.magenta('  Public static content path: ') + publicStaticContentPath);
+    log.info(chalk.magenta('  Default layouts content path: ') + layoutsDefaultContentPath);
+    log.info(chalk.magenta('  Default partials content path: ') + partialsDefaultContentPath);    
 }); 

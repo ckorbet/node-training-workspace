@@ -4,7 +4,6 @@
 <head>
     <link rel="stylesheet" href="./css/style.css">
     {{!-- Paths must be relative to the directory set up in the condiguration of express-handlebars --}}
-    <script src="./js/app.js"></script>
     <title>MyIndexWeatherFromIndex</title>
 </head>
 
@@ -15,8 +14,17 @@
     {{!-- Paths must be relative to the directory set up in the condiguration of express-handlebars --}}
     <img src="./img/weather_storm.jpg">
     <h2>Hello {{name}}</h2>
+
+    <form id="idForm">
+        <input id="idLocation" placeholder="Location">
+        <button>Search</button>
+    </form>
+    <pre id="idJsonOutput"></pre>
+
     
     {{>footer}}
+
+    <script src="./js/app.js"></script>
 </body>
 
 </html>

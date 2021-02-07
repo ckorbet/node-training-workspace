@@ -1,7 +1,9 @@
 const path = require('path');
-const chalk = require('chalk');
+const { yellow, magenta } = require('chalk');
 const express = require('express');
 const exphbs = require('express-handlebars');
+const utils = require('./utils/utilities');
+const request = require('request');
 
 const properties = require('./properties.json');
 const log = require('./utils/winston');
@@ -35,14 +37,14 @@ app.set('views', layoutsDefaultContentPath); // this se upt the default engine v
 //     response.send('Hello express!!');
 // });
 
-app.get(properties.internalUrl.help, (request, response) => {
+app.get(properties.url.internal.help, (request, response) => {
     response.render('help', {
         tittle: 'This is the dynamic help tittle',
         footer: 'This is the dynamic help footer'
     });
 });
 
-app.get(properties.internalUrl.about, (request, response) => {
+app.get(properties.url.internal.about, (request, response) => {
     response.render('about', {
         tittle: 'This is the dynamic about tittle',
         footer: 'This is the dynamic about footer'
@@ -58,23 +60,24 @@ app.get('', (request, response) => {
     }); 
 });
 
-app.get(properties.internalUrl.license, (request, response) => {
+app.get(properties.url.internal.license, (request, response) => {
     response.send('<h1>License</h1>');
 });
 
-app.get(properties.internalUrl.weather, (request, response) => {
-    if(!request.query.address) {
-        response.send({ error: 'address query param required'});
-    } else {
-        response.send({
-            forecas: '',
-            location: request.query.address
-        });
+app.get(properties.url.internal.weather, (req, res) => {
+    const theAddress = req.query.address;
+    if(theAddress) {
+        log.info(`Received ${properties.url.internal.weather}?address=${theAddress}`);
+        // TODO
+        utils.geolocation(theAddress, utils.myGeoCallback(res, theAddress));
+    } else {        
+        log.warn(`Received ${properties.url.internal.weather} - address query param required`);
+        res.send({ error: 'address query param required'});
     }
 });
 
 // Be aware of not returning two responses when actually only one can be sent
-app.get('/product', (request, response) => {
+app.get(properties.url.internal.product, (request, response) => {
     if(!request.query.param1) { // This is the way we can retrieve query params
         response.send({ error: 'param1 required'});
     } else {
@@ -84,7 +87,7 @@ app.get('/product', (request, response) => {
     }
 });
 
-app.get('/help/*', (request, response) => {
+app.get(properties.url.internal.help + '/*', (request, response) => {
     response.render('error', {
         errorText: 'Content under construction',
         imgSrc: './img/underConstruction'
@@ -103,10 +106,11 @@ app.get('*', (request, response) => {
 
 // this starts up the server at indicated port 
 app.listen(defaultPort, () => {
-    log.info(chalk.yellow('Server up and runnig in port ' + defaultPort + ' !!'));
-    log.info(chalk.magenta('  Dirname: ') + __dirname);
-    log.info(chalk.magenta('  Filename: ') + __filename);
-    log.info(chalk.magenta('  Public static content path: ') + publicStaticContentPath);
-    log.info(chalk.magenta('  Default layouts content path: ') + layoutsDefaultContentPath);
-    log.info(chalk.magenta('  Default partials content path: ') + partialsDefaultContentPath);    
+    log.info(yellow('Server up and runnig in port ' + defaultPort + ' !!'));
+    log.info(magenta('  Dirname: ') + __dirname);
+    log.info(magenta('  Filename: ') + __filename);
+    log.info(magenta('  Public static content path: ') + publicStaticContentPath);
+    log.info(magenta('  Default layouts content path: ') + layoutsDefaultContentPath);
+    log.info(magenta('  Default partials content path: ') + partialsDefaultContentPath);    
 }); 
+

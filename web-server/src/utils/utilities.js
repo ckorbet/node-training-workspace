@@ -1,102 +1,103 @@
 const request = require('request');
-const chalk = require('chalk');
-const yargs = require('yargs');
-const properties = require('./properties.json');
+const { red, magenta, yellow, green } = require('chalk');
+const properties = require('../properties.json');
+const log = require('./winston');
 
-// Destructuring nested object
 const forecastRequestCallback = (error, {statusCode, body: { current: {temperature} },  body: { current: {weather_descriptions}}} = {}) => {
-    if (error === null) {
-        if (statusCode === 200) {
-            console.log(chalk.magenta('  Request correctly done and json-parsed!!'));
-            console.log('  Weather is ' + temperature + ' degrees and ' + weather_descriptions);
-        }
+    if(error) {
+        log.error(red('Unable to connect to location services!'));
+    } else if(statusCode !== 200) {
+        log.error(red('Unexpected error - HTTP status <> 200'));
     } else {
-        console.log(chalk.red.bold(error));
+        log.info(magenta('  Request correctly done and json-parsed!!'));
+        log.info('  Weather is ' + temperature + ' degrees and ' + weather_descriptions);
     }
 };
 
-// Pasing object as argument
-// const forecastRequestCallback = (error, response) => {
-//     if (error === null) {
-//         if (response.statusCode === 200) {
-//             console.log(chalk.magenta('  Request correctly done and json-parsed!!'));
-//             console.log('  Weather is ' + response.body.current.temperature + ' degrees and ' + response.body.current.weather_descriptions);
-//         }
-//     } else {
-//         console.log(chalk.red.bold(error));
-//     }
-// };
-
-// Destructuring nested object
 const geolocationRequestCallback = (error, {statusCode, body} = {}) => {
-    if (error === null) {
-        if (statusCode === 200) {
-            console.log(chalk.magenta('  Coordinates request correctly done and json-parsed!!'));
-            console.log('  Location is ' + body.features[0].center[1] + ',' + body.features[0].center[0]);
-            console.log(chalk.magenta('  Requesting weather forecast...'));
-            const weatherStackUrl = properties.url.weatherstack + '&query=' + body.features[0].center[1] + ',' + body.features[0].center[0] + '&units=m';
-            request({ url: weatherStackUrl, json: true }, forecastRequestCallback);
-        }
+    if(error) {
+        log.error(red('Unable to connect to location services!'));
+    } else if(statusCode !== 200) {
+        log.error(red('Unexpected error - HTTP status <> 200'));
     } else {
-        console.log(chalk.red.bold(error));
+        log.info(magenta('  Coordinates request correctly done and json-parsed!!'));
+        log.info('  Location is ' + body.features[0].center[1] + ',' + body.features[0].center[0]);
+        const fullWeatherUrl = `${properties.url.external.weatherstack.url}&${properties.url.external.weatherstack.accessParam}=${properties.url.external.weatherstack.apiKey}&query=${body.features[0].center[1]},${body.features[0].center[0]}`;
+        log.info(magenta(`  Requesting weather forecast ${fullWeatherUrl}`));        
+        request({ url: fullWeatherUrl, json: true }, forecastRequestCallback);
     }
 };
 
-// Pasing object as argument
-// const geolocationRequestCallback = (error, response) => {
-//     if (error === null) {
-//         if (response.statusCode === 200) {
-//             console.log(chalk.magenta('  Coordinates request correctly done and json-parsed!!'));
-//             console.log('  Location is ' + response.body.features[0].center[1] + ',' + response.body.features[0].center[0]);
-//             console.log(chalk.magenta('  Requesting weather forecast...'));
-//             const weatherStackUrl = properties.url.weatherstack + '&query=' + response.body.features[0].center[1] + ',' + response.body.features[0].center[0] + '&units=m';
-//             request({ url: weatherStackUrl, json: true }, forecastRequestCallback);
-//         }
-//     } else {
-//         console.log(chalk.red.bold(error));
-//     }
-// };
-
-const forecastHandler = (argv) => {
-    console.log(chalk.yellow('Forecasting weather:'));
-    console.log(chalk.green('  City: ') + argv.city);
-    console.log(chalk.magenta('  Requesting forecast...'));
-    request({ url: properties.url.weatherstack + '&query=' + argv.city + '&units=m', json: true }, forecastRequestCallback);
+const forecastRequest = (argv) => {
+    log.info(yellow('Forecasting weather:'));
+    log.info(green('  City: ') + argv.city);
+    log.info(magenta('  Requesting forecast...'));
+    const fullWeatherUrl = `${properties.url.external.weatherstack.url}&${properties.url.external.weatherstack.accessParam}=${properties.url.external.weatherstack.apiKey}&query=${argv.city}`;
+    request({ url: fullWeatherUrl , json: true }, forecastRequestCallback);
 };
 
-const geolocationHandler = (argv) => {
-    console.log(chalk.yellow('Geolocating city:'));
-    console.log(chalk.green('  City: ') + argv.city);
-    console.log(chalk.magenta('  Requesting coordinates...'));
-    request({ url: properties.url.mapbox.replace('{location}', argv.city), json: true }, geolocationRequestCallback);
+const geolocationRequest = (address) => {
+    log.info(yellow('Geolocating city:'));
+    log.info(green(`  City: ${address}`));
+    const uri = properties.url.external.mapbox.url.replace('{location}', address);
+    const fullGeoUrl = `${uri}?${properties.url.external.mapbox.accessParam}=${properties.url.external.mapbox.apiKey}`;
+    log.info(magenta(`  Requesting coordinates ${fullGeoUrl}`));
+    request({ url: fullGeoUrl, json: true }, geolocationRequestCallback);
 }
 
-yargs
-    .command({
-        command: 'forecast',
-        describe: 'Show weather forecast of the given city',
-        builder: {
-            city: {
-                describe: 'Name of the city whose weather you want to forecast',
-                demandOption: true,
-                type: 'string'
-            }
-        },
-        handler: forecastHandler
-    })
-    .command({
-        command: 'geolocation',
-        describe: 'Show weather forecast of the given city, based on its coordinates',
-        builder: {
-            city: {
-                describe: 'Name of the city whose weather you want to forecast',
-                demandOption: true,
-                type: 'string'
-            }
-        },
-        handler: geolocationHandler
-    })
-    .demandCommand(1)
-    ;
+const forecast = (latitude, longitude, callback) => {
+    log.info(yellow('Forecasting weather:'));
+    log.info(green('  City: ') + argv.city);
+    log.info(magenta('  Requesting forecast...'));
+    const fullWeatherUrl = `${properties.url.external.weatherstack.url}&${properties.url.external.weatherstack.accessParam}=${properties.url.external.weatherstack.apiKey}&query=${argv.city}`;
+    request({ url: fullWeatherUrl , json: true }, callback);
+};
 
-yargs.parse();
+const geolocation = (address, callback) => {
+    log.info(yellow('Geolocating city:'));
+    log.info(green(`  City: ${address}`));
+    const uri = properties.url.external.mapbox.url.replace('{location}', address);
+    const fullGeoUrl = `${uri}?${properties.url.external.mapbox.accessParam}=${properties.url.external.mapbox.apiKey}`;
+    log.info(magenta(`  Requesting coordinates ${fullGeoUrl}`));
+    request({ url: fullGeoUrl, json: true }, callback);
+}
+
+const myGeoCallback = (res, theAddress) => {
+    return (error, { statusCode, body } = {}) => {
+
+        if (error) {
+            log.error(red('Unable to connect to location services!'));
+        } else if (statusCode !== 200) {
+            log.error(red('Unexpected error - HTTP status <> 200'));
+        } else {
+            log.info(magenta('  Coordinates request correctly done and json-parsed!!'));
+            const geolocation = `${body.features[0].center[1]},${body.features[0].center[0]}`;
+            log.info(`  Location is ${geolocation}`);
+            const fullWeatherUrl = `${properties.url.external.weatherstack.url}&${properties.url.external.weatherstack.accessParam}=${properties.url.external.weatherstack.apiKey}&query=${body.features[0].center[1]},${body.features[0].center[0]}`;
+            log.info(magenta(`  Requesting weather forecast ${fullWeatherUrl}`));
+
+            request({ url: fullWeatherUrl, json: true }, myForecasCallback(res, theAddress, geolocation));
+        }
+    };
+};
+
+const myForecasCallback = (res, theAddress, geolocation) => {
+    return (error, { statusCode, body: { current: { temperature } }, body: { current: { weather_descriptions } } } = {}) => {
+        if (error) {
+            log.error(red('Unable to connect to location services!'));
+        } else if (statusCode !== 200) {
+            log.error(red('Unexpected error - HTTP status <> 200'));
+        } else {
+            log.info(magenta('  Request correctly done and json-parsed!!'));
+            const forecast = `  Weather is ${temperature} degrees and ${weather_descriptions}`;
+            log.info(forecast);
+            res.send({
+                address: theAddress,
+                geolocation: geolocation,
+                forecast: forecast
+            });
+        }
+    };
+};
+
+module.exports = {myGeoCallback, forecast, forecastRequest, geolocation, geolocationRequest, geolocationRequestCallback, forecastRequestCallback};

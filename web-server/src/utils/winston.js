@@ -1,5 +1,5 @@
 const { createLogger, format, transports } = require('winston');
-const { combine, timestamp, label, printf } = format;
+const { combine, timestamp, label, printf, colorize } = format;
 
 const myFormat = printf(({ level, message, label, timestamp }) => {
     return `${timestamp} [${label}] ${level}: ${message}`;
@@ -8,12 +8,9 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 module.exports = createLogger({
     level: 'info',
     format: combine(
-        label({ 
-            label: 'web-server-app'
-        }),
-        timestamp({
-            format: 'YYYY-MM-DD HH:mm:ss'
-        }),
+        label({ label: 'web-server-app' }),
+        timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        colorize(),
         myFormat
     ),
     defaultMeta: { service: 'user-service' },

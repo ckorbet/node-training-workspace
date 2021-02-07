@@ -10,6 +10,9 @@
                 "url": "https://api.mapbox.com/geocoding/v5/mapbox.places/{location}.json",
                 "accessParam": "access_token",
                 "apiKey": "pk.eyJ1IjoiY2tvcmJldCIsImEiOiJja2ptbXhma2IwanRhMnh0ZnN4ZmV3bGpyIn0.Zk_d9r6a7fRjWY3gawErlQ"
+            },
+            "puzzle": {
+                "url": "http://puzzle.mead.io/puzzle"
             }
         },
         "internal": {

@@ -1,0 +1,19 @@
+{
+  "name": "node-training-workspace",
+  "version": "1.0.0",
+  "description": "Workspace for The Complete Node.js Developer Course",
+  "main": "index.js",
+  "scripts": {
+    "start-web-server": "cd web-server && npm run start && cd ../"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ckorbet/node-training-workspace.git"
+  },
+  "author": "Carlos Torres",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ckorbet/node-training-workspace/issues"
+  },
+  "homepage": "https://github.com/ckorbet/node-training-workspace#readme"
+}

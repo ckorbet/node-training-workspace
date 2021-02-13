@@ -3,17 +3,19 @@ const { yellow, magenta } = require('chalk');
 const express = require('express');
 const exphbs = require('express-handlebars');
 const utils = require('./utils/utilities');
-const request = require('request');
 
 const properties = require('./properties.json');
 const log = require('./utils/winston');
-const { workers } = require('cluster');
-const { query } = require('express');
 
 const publicStaticContentPath = path.join(__dirname, '../public');
 const layoutsDefaultContentPath = path.join(__dirname, '../views');
 const partialsDefaultContentPath = path.join(__dirname, '../views/partials');
-const defaultPort = 3000;
+
+/*
+ * Default port mest be set up with the port env. var. provided by Heroky.
+ * Otherwise, the applciation won't be accesible to the world.
+ */
+const defaultPort = process.env.PORT || 3000;
 
 // this creates an express web-server application
 const app = express();

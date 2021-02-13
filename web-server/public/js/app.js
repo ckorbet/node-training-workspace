@@ -10,7 +10,11 @@ console.log('Client js file loaded  !!');
 // });
 
 const theAddress = 'Austin';
-fetch(`http://localhost:3000/weather?address=${theAddress}`).then((response) => {
+/*
+ * In order for this URL to work propertly in Heroku,
+ * the URL must be relative to the Heroku's machine
+ */
+fetch(`/weather?address=${theAddress}`).then((response) => {
     console.log('Response completed !!');
     response.json().then((data) => {
         console.log(data)

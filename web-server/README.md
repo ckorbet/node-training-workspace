@@ -22,3 +22,5 @@ At the moment of this training/course:
 * [Handlebars 4.7.6](https://www.npmjs.com/package/handlebars)
 * [Express-handlebars 5.2.0](https://www.npmjs.com/package/express-handlebars)
 * [Winston](https://github.com/winstonjs/winston) 3.3.3
+
+_([back to main README](../README.md))_

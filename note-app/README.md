@@ -15,3 +15,5 @@ At the moment of this training/course:
 * [Chalk 4.1.0](https://www.npmjs.com/package/chalk)
 * [Validator 13.5.2](https://www.npmjs.com/package/validator)
 * [Yargs 16.2.0](https://www.npmjs.com/package/yargs)
+
+_([back to main README](../README.md))_

@@ -6,7 +6,7 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 });
 
 module.exports = createLogger({
-    level: 'info',
+    level: 'debug',
     format: combine(
         label({ label: 'web-server-app' }),
         timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),

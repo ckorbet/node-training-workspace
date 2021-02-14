@@ -34,16 +34,6 @@ app.engine('hbs', handlebars.engine); // this set up the templating engine
 app.set('view engine', 'hbs'); // this set up the view engine
 app.use(express.static(publicStaticContentPath)); // this set up the default public content directory
 app.set('views', layoutsDefaultContentPath); // this se upt the default engine view directory
-// app.enable('trust proxy'); // this set upt https for Heroku's proxy
-// /*
-//  * Below lines redirect all traffic to https
-//  */
-// app.use((request, response, next) => {
-//     if(process.env.NODE_ENV !== 'development' && !request.secure) {
-//         return response.redirect(`https://${request.headers.host}${request.url}`);
-//     }
-//     next();
-// });
 
 app.get(properties.url.internal.help, (request, response) => {
     response.render('help', {

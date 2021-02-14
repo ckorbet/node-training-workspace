@@ -34,9 +34,15 @@ app.engine('hbs', handlebars.engine); // this set up the templating engine
 app.set('view engine', 'hbs'); // this set up the view engine
 app.use(express.static(publicStaticContentPath)); // this set up the default public content directory
 app.set('views', layoutsDefaultContentPath); // this se upt the default engine view directory
-
-// app.get('', (request, response) => {
-//     response.send('Hello express!!');
+// app.enable('trust proxy'); // this set upt https for Heroku's proxy
+// /*
+//  * Below lines redirect all traffic to https
+//  */
+// app.use((request, response, next) => {
+//     if(process.env.NODE_ENV !== 'development' && !request.secure) {
+//         return response.redirect(`https://${request.headers.host}${request.url}`);
+//     }
+//     next();
 // });
 
 app.get(properties.url.internal.help, (request, response) => {
@@ -70,7 +76,6 @@ app.get(properties.url.internal.weather, (req, res) => {
     const theAddress = req.query.address;
     if(theAddress) {
         log.info(`Received ${properties.url.internal.weather}?address=${theAddress}`);
-        // TODO
         utils.geolocation(theAddress, utils.myGeoCallback(res, theAddress));
     } else {        
         log.warn(`Received ${properties.url.internal.weather} - address query param required`);
@@ -108,11 +113,11 @@ app.get('*', (request, response) => {
 
 // this starts up the server at indicated port 
 app.listen(defaultPort, () => {
-    log.info(yellow('Server up and runnig in port ' + defaultPort + ' !!'));
-    log.info(magenta('  Dirname: ') + __dirname);
-    log.info(magenta('  Filename: ') + __filename);
-    log.info(magenta('  Public static content path: ') + publicStaticContentPath);
-    log.info(magenta('  Default layouts content path: ') + layoutsDefaultContentPath);
-    log.info(magenta('  Default partials content path: ') + partialsDefaultContentPath);    
+    log.info(yellow(`Server up and runnig in port ${defaultPort} !!`));
+    log.info(magenta(' Dirname: ') + __dirname);
+    log.info(magenta(' Filename: ') + __filename);
+    log.info(magenta(' Public static content path: ') + publicStaticContentPath);
+    log.info(magenta(' Default layouts content path: ') + layoutsDefaultContentPath);
+    log.info(magenta(' Default partials content path: ') + partialsDefaultContentPath);    
 }); 
 

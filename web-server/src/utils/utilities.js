@@ -82,18 +82,24 @@ const myGeoCallback = (res, theAddress) => {
 };
 
 const myForecasCallback = (res, theAddress, geolocation) => {
-    return (error, { statusCode, body: { current: { temperature } }, body: { current: { weather_descriptions } } } = {}) => {
+    return (error, { statusCode, body: { current: { temperature, weather_descriptions }, location: {name, country, region, timezone_id} } } = {}) => {
         if (error) {
             log.error(red('Unable to connect to location services!'));
         } else if (statusCode !== 200) {
             log.error(red('Unexpected error - HTTP status <> 200'));
         } else {
             log.info(magenta('  Request correctly done and json-parsed!!'));
-            const forecast = `  Weather is ${temperature} degrees and ${weather_descriptions}`;
-            log.info(forecast);
+            const forecast = `Weather is ${temperature} degrees and ${weather_descriptions}`;
+            log.info(`  ${forecast}`);
             res.send({
                 address: theAddress,
-                geolocation: geolocation,
+                geolocation: {
+                    coordinates: geolocation,
+                    name,
+                    country,
+                    region,
+                    timezone: timezone_id
+                },
                 forecast: forecast
             });
         }

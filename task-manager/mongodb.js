@@ -83,15 +83,30 @@ MongoClient.connect(
           //   age: 49,
           // },
           $inc: {
-            age: 6
-          }
+            age: 6,
+          },
         }
       )
       .then((result) => {
         if (result.matchedCount == 1 && result.modifiedCount === 1) {
-          log.info("Update done correctly");
+          log.info("User update correctly done");
         } else {
-          log.warn("Somenting went weird. Review the update");
+          log.warn("Somenting went weird. Review the user update");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    db.collection("tasks")
+      .updateMany({ completed: false }, { $set: { completed: true } })
+      .then((result) => {
+        if (result.matchedCount > 0 && result.modifiedCount > 0) {
+          log.info(
+            `Tasks update correctly done. Updated ${result.modifiedCount} tasks`
+          );
+        } else {
+          log.warn("Something went weird. Review the tasks update");
         }
       })
       .catch((error) => {

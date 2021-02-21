@@ -25,7 +25,12 @@ MongoClient.connect(
       lastName: "Torres",
       age: 38,
     };
-    db.collection("users").insertOne(theUser);
-    log.info(`User inserted: ${theUser}`);
+    db.collection("users").insertOne(theUser, (error, result) => {
+      if(error) {
+        return log.error(`Unable to insert user: ${error}`);
+      }
+      log.info(JSON.stringify(result.ops));
+    });
+    log.info(`User inserted: ${JSON.stringify(theUser)}`);
   }
 );

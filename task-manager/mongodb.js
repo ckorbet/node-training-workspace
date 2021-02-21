@@ -95,7 +95,7 @@ MongoClient.connect(
         }
       })
       .catch((error) => {
-        console.error(error);
+        log.error(error);
       });
 
     db.collection("tasks")
@@ -110,7 +110,21 @@ MongoClient.connect(
         }
       })
       .catch((error) => {
-        console.error(error);
+        log.error(error);
       });
+
+    db.collection('users').deleteMany({age: 38})
+    .then(result => {
+      if(result.deletedCount > 0) {
+        log.info(`Deletion correctly done. Removed ${result.deletedCount} users`);
+      } else {
+        log.warn('Somenting went werid. Review the deletion');
+      }
+    })
+    .catch(error => {
+      log.error(error);
+    });
+
+
   }
 );

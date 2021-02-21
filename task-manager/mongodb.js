@@ -1,9 +1,9 @@
-const { MongoClient } = require("mongodb");
-const log = require("./src/utils/winston");
-const properties = require("./resources/properties.json");
+const { MongoClient } = require('mongodb');
+const log = require('./src/utils/winston');
+const properties = require('./resources/properties.json');
 
 const connectionURL = `mongodb://${properties.mongodo.user}:${properties.mongodo.password}@${properties.mongodo.host}:${properties.mongodo.port}`;
-const dbName = "task-manager";
+const dbName = 'task-manager';
 
 MongoClient.connect(
   connectionURL,
@@ -20,17 +20,44 @@ MongoClient.connect(
 
     const db = client.db(dbName);
 
-    const theUser = {
-      name: "Carlos",
-      lastName: "Torres",
-      age: 38,
-    };
-    db.collection("users").insertOne(theUser, (error, result) => {
+    // const theUser = {
+    //   name: 'Carlos',
+    //   lastName: 'Torres',
+    //   age: 38,
+    // };
+    // db.collection('users').insertOne(theUser, (error, result) => {
+    //   if(error) {
+    //     return log.error(`Unable to insert user: ${error}`);
+    //   }
+    //   log.info(`User inserted: JSON.stringify(result.ops)`);
+    // });
+
+    // const theUsers = [{
+    //   name: 'Fulanito',
+    //   lastName: 'Torres',
+    //   age: 38,
+    // }, 
+    // {
+    //   name: 'Menganito',
+    //   lastName: 'Torres',
+    //   age: 38,
+    // }];
+    // db.collection('users').insertMany(theUsers, (error, result) => {
+    //   if(error) {
+    //     return log.error(`Unable to insert users: ${error}`);
+    //   }
+    //   log.info(`Users inserted: JSON.stringify(result.ops)`);
+    // });
+
+
+    const myTasks = require('./resources/tasks.json');
+    db.collection('tasks').insertMany(myTasks, (error, result) => {
       if(error) {
-        return log.error(`Unable to insert user: ${error}`);
+        return log.error(`Unable to insert tasks: ${JSON.stringify(error)}`);
       }
-      log.info(JSON.stringify(result.ops));
+      log.info(`Tasks inserted: ${JSON.stringify(result.ops, null, 4)}`);
     });
-    log.info(`User inserted: ${JSON.stringify(theUser)}`);
+
+
   }
 );

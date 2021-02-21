@@ -1,11 +1,13 @@
-const { MongoClient, ObjectID } = require('mongodb');
-const log = require('./src/utils/winston');
-const properties = require('./resources/properties.json');
+const { MongoClient, ObjectID } = require("mongodb");
+const log = require("./src/utils/winston");
+const properties = require("./resources/properties.json");
 
 const connectionURL = `mongodb://${properties.mongodo.user}:${properties.mongodo.password}@${properties.mongodo.host}:${properties.mongodo.port}`;
-const dbName = 'task-manager';
+const dbName = "task-manager";
 
-MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: true },
+MongoClient.connect(
+  connectionURL,
+  { useNewUrlParser: true, useUnifiedTopology: true },
   (err, client) => {
     if (err) {
       return log.error(err);
@@ -34,7 +36,7 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: 
     //   name: 'Fulanito',
     //   lastName: 'Torres',
     //   age: 38,
-    // }, 
+    // },
     // {
     //   name: 'Menganito',
     //   lastName: 'Torres',
@@ -46,7 +48,6 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: 
     //   }
     //   log.info(`Users inserted: JSON.stringify(result.ops)`);
     // });
-
 
     // const myTasks = require('./resources/tasks.json');
     // db.collection('tasks').insertMany(myTasks, (error, result) => {
@@ -71,24 +72,30 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: 
     //   log.info(`${users.length} obtained with 38 yo`)
     // });
 
-    db.collection('users').updateOne({ 
-      // _id: new ObjectID('603246452ce4f4a2dd03120c')
-      age: 47
-    }, 
-    {
-      $set: {
-        age: 48
-      }
-    }).then((result) => {
-      console.log(result);
-      if(result.matchedCount == 1 && result.modifiedCount === 1) {
-        log.info('Update done correctly');
-      } else {
-        log.warn('Somenting went weird. Review the update');
-      }      
-    }).catch((error) => {
-      console.error(error);
-    });
-
+    db.collection("users")
+      .updateOne(
+        {
+          // _id: new ObjectID('603246452ce4f4a2dd03120c')
+          age: 49,
+        },
+        {
+          // $set: {
+          //   age: 49,
+          // },
+          $inc: {
+            age: 6
+          }
+        }
+      )
+      .then((result) => {
+        if (result.matchedCount == 1 && result.modifiedCount === 1) {
+          log.info("Update done correctly");
+        } else {
+          log.warn("Somenting went weird. Review the update");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 );

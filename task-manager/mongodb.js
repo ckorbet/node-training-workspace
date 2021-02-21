@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectID } = require('mongodb');
 const log = require('./src/utils/winston');
 const properties = require('./resources/properties.json');
 
@@ -20,17 +20,20 @@ MongoClient.connect(
 
     const db = client.db(dbName);
 
-    // const theUser = {
-    //   name: 'Carlos',
-    //   lastName: 'Torres',
-    //   age: 38,
-    // };
-    // db.collection('users').insertOne(theUser, (error, result) => {
-    //   if(error) {
-    //     return log.error(`Unable to insert user: ${error}`);
-    //   }
-    //   log.info(`User inserted: JSON.stringify(result.ops)`);
-    // });
+    const _id = new ObjectID();
+    log.info(`About to insert user with id ${_id}`);
+    const theUser = {
+      _id,
+      name: 'Carlos',
+      lastName: 'Torres',
+      age: 38,
+    };
+    db.collection('users').insertOne(theUser, (error, result) => {
+      if(error) {
+        return log.error(`Unable to insert user: ${error}`);
+      }
+      log.info(`User inserted: JSON.stringify(result.ops)`);
+    });
 
     // const theUsers = [{
     //   name: 'Fulanito',
@@ -57,7 +60,6 @@ MongoClient.connect(
       }
       log.info(`Tasks inserted: ${JSON.stringify(result.ops, null, 4)}`);
     });
-
 
   }
 );

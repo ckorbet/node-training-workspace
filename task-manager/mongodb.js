@@ -1,16 +1,12 @@
 const { MongoClient, ObjectID } = require('mongodb');
 const log = require('./src/utils/winston');
 const properties = require('./resources/properties.json');
+const { Logform } = require('winston');
 
 const connectionURL = `mongodb://${properties.mongodo.user}:${properties.mongodo.password}@${properties.mongodo.host}:${properties.mongodo.port}`;
 const dbName = 'task-manager';
 
-MongoClient.connect(
-  connectionURL,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
+MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: true },
   (err, client) => {
     if (err) {
       return log.error(err);
@@ -32,7 +28,7 @@ MongoClient.connect(
       if(error) {
         return log.error(`Unable to insert user: ${error}`);
       }
-      log.info(`User inserted: JSON.stringify(result.ops)`);
+      log.info(`User inserted: ${JSON.stringify(result.ops)}`);
     });
 
     // const theUsers = [{
@@ -59,6 +55,21 @@ MongoClient.connect(
         return log.error(`Unable to insert tasks: ${JSON.stringify(error)}`);
       }
       log.info(`Tasks inserted: ${JSON.stringify(result.ops, null, 4)}`);
+    });
+
+    const idToFetch = '603241ff9a35cb3f782f65ac';
+    db.collection('tasks').findOne({ _id: new ObjectID(idToFetch)}, (error, task) => {
+      if(error) {
+        return log.error(`Unable to fetch task by id ${idToFetch}`);
+      }
+      log.info(`Task obtained: ${JSON.stringify(task)}`);
+    });
+
+    db.collection('users').find({age: 38}).toArray((error, users) => {
+      if(error) {
+        return log.error('Unable to get 38 yo users');
+      }
+      log.info(`${users.length} obtained with 38 yo`)
     });
 
   }

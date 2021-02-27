@@ -28,11 +28,11 @@ mongoose.connect(connectionUrl, {
 
 
 // Following lines creates de mongoose model
-const User = mongoose.model('User', new mongoose.Schema({
+const User = mongoose.model('User', {
     name: { type: String },  
     lastName: { type: String },
     age: { type: Number }
-}));
+});
 log.info('Mongoose "User" model created');
 
 // Following lines instantiate a User
@@ -48,4 +48,26 @@ theUser.save().then(() => {
 }).catch((error) => {
     log.error(`Something went wrong. Review the saving: ${error}`)
 });
+
+const Task = mongoose.model('Task', {
+    title: { type: String },
+    description: { type: String },
+    completed: { type: Boolean },
+});
+log.info('Mongoose "Task" model created');
+
+const theTask = new Task({
+    title: 'Mongoose task',
+    description: 'Task to mess aroung mongoose models',
+    completed: false
+});
+log.info(`Mongoose "Task" model instantiated: ${JSON.stringify(theTask)}`);
+
+theTask.save().then(() => {
+    log.info(`Task correctly saved: ${JSON.stringify(theTask)}`)
+}).catch((error) => {
+    log.error(`Something went wrong. Review the saving: ${error}`)
+});
+
+
 

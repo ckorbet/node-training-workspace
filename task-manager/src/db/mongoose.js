@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { isEmail } = require('validator');
+const { isEmail, isStrongPassword } = require('validator');
 
 const properties = require('../../resources/properties.json');
 const log = require('../utils/winston');
@@ -49,11 +49,23 @@ const User = mongoose.model('User', {
         trim: true,
         lowercase: true,
         validate: {
-            validator: (value) => {
+            validator: value => {
               return isEmail(value);
             },
             message: props => `${props.value} is not a valid email`
           },
+    },
+    password: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: 8,
+        validate: {
+            validator: value => {
+                return isStrongPassword(value) && !value.includes('password');
+            },
+            message: props => `${props.value} is not a strong password`
+        }
     }
 });
 log.info('Mongoose "User" model created');
@@ -63,7 +75,8 @@ const theUser = new User({
     name: '    Carlitos   ',
     lastName: 'Way',
     age: 38,
-    email: 'Carlitos@email.com'
+    email: 'Carlitos@email.com',
+    password: 'abcDefg_183305'
 });
 log.info(`Mongoose "User" model instantiated: ${JSON.stringify(theUser)}`);
 
@@ -74,16 +87,22 @@ theUser.save().then(() => {
 });
 
 const Task = mongoose.model('Task', {
-    title: { type: String },
+    title: { 
+        type: String,
+        required: true
+    },
     description: { type: String },
-    completed: { type: Boolean },
+    completed: { 
+        type: Boolean,
+        default: false
+    },
 });
 log.info('Mongoose "Task" model created');
 
 const theTask = new Task({
     title: 'Mongoose task',
     description: 'Task to mess aroung mongoose models',
-    completed: false
+    completed: true
 });
 log.info(`Mongoose "Task" model instantiated: ${JSON.stringify(theTask)}`);
 

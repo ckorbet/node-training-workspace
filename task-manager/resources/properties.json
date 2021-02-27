@@ -1,8 +1,10 @@
 {
-    "mongodo": {
+    "mongo": {
         "user": "mongoadmin",
         "password": "secret",
         "host": "127.0.0.1",
-        "port": 27017
+        "port": 27017,
+        "tmDbName": "task-manager",
+        "tmaDbName": "task-manager-api"
     }
 }

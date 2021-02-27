@@ -2,8 +2,8 @@ const { MongoClient, ObjectID } = require("mongodb");
 const log = require("./src/utils/winston");
 const properties = require("./resources/properties.json");
 
-const connectionURL = `mongodb://${properties.mongodo.user}:${properties.mongodo.password}@${properties.mongodo.host}:${properties.mongodo.port}`;
-const dbName = "task-manager";
+const connectionURL = `mongodb://${properties.mongo.user}:${properties.mongo.password}@${properties.mongo.host}:${properties.mongo.port}`;
+const dbName = `${properties.mongo.tmDbName}`;
 
 MongoClient.connect(
   connectionURL,

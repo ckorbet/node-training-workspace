@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { isEmail } = require('validator');
+
 const properties = require('../../resources/properties.json');
 const log = require('../utils/winston');
 
@@ -29,17 +31,39 @@ mongoose.connect(connectionUrl, {
 
 // Following lines creates de mongoose model
 const User = mongoose.model('User', {
-    name: { type: String },  
-    lastName: { type: String },
-    age: { type: Number }
+    name: { 
+        type: String,
+        trim: true
+    },  
+    lastName: { 
+        type: String,
+        trim: true
+    },
+    age: { 
+        type: Number,
+        min: 0,
+    },
+    email: { 
+        type: String, 
+        required: true,
+        trim: true,
+        lowercase: true,
+        validate: {
+            validator: (value) => {
+              return isEmail(value);
+            },
+            message: props => `${props.value} is not a valid email`
+          },
+    }
 });
 log.info('Mongoose "User" model created');
 
 // Following lines instantiate a User
 const theUser = new User({
-    name: 'Carlitos',
+    name: '    Carlitos   ',
     lastName: 'Way',
-    age: 39
+    age: 38,
+    email: 'Carlitos@email.com'
 });
 log.info(`Mongoose "User" model instantiated: ${JSON.stringify(theUser)}`);
 

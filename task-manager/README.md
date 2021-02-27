@@ -21,5 +21,6 @@ At the moment of this training/course:
 * [Winston 3.3.3](https://github.com/winstonjs/winston)
 * [Mongodb 3.6.4](https://www.npmjs.com/package/mongodb)
 * [Mongoose 5.11.18](https://mongoosejs.com/) _(also see [Mongoose at npm](https://www.npmjs.com/package/mongoose))_
+* [Validator 13.5.2](https://www.npmjs.com/package/validator)
 
 _([back to main README](../README.md))_

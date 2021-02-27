@@ -20,5 +20,6 @@ At the moment of this training/course:
 * [Nodemon 2.0.2](https://www.npmjs.com/package/nodemon) _(global - W10 isntallation problems !!)_
 * [Winston 3.3.3](https://github.com/winstonjs/winston)
 * [Mongodb 3.6.4](https://www.npmjs.com/package/mongodb)
+* [Mongoose 5.11.18](https://mongoosejs.com/) _(also see [Mongoose at npm](https://www.npmjs.com/package/mongoose))_
 
 _([back to main README](../README.md))_

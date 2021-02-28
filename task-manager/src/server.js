@@ -42,7 +42,23 @@ app.post(props.endpoints.users, (req, res) => {
         });
     });       
 });
-log.info(`Users endpoint ${props.endpoints.users} registered`);
+log.info(`Users POST endpoint ${props.endpoints.users} registered`);
+
+app.get(props.endpoints.users, (req, res) => {
+    log.info(`GET request received to ${props.endpoints.users} endpoint`);
+    User.find({}).then((users) => {
+        log.info('Users correctly fetched');
+        res.json(users);
+    }).catch((error) => {
+        log.error(`Something went wrong. Review the fetch: ${error}`)
+        res.status(500).json({
+            _message: error._message,
+            name: error.name,
+            message: error.message
+        });
+    });
+});
+log.info(`Users GET endpoint ${props.endpoints.users} registered`);
 
 app.post(props.endpoints.tasks, (req, res) => {
     log.info(`POST request received to ${props.endpoints.tasks} endpoint`);
@@ -60,7 +76,23 @@ app.post(props.endpoints.tasks, (req, res) => {
         });
     });       
 });
-log.info(`Tasks endpoint ${props.endpoints.tasks} registered`);
+log.info(`Tasks POST endpoint ${props.endpoints.tasks} registered`);
+
+app.get(props.endpoints.tasks, (req, res) => {
+    log.info(`GET request received to ${props.endpoints.tasks} endpoint`);
+    Task.find({}).then((tasks) => {
+        log.info('Tasks correctly fetched');
+        res.json(tasks);
+    }).catch((error) => {
+        log.error(`Something went wrong. Review the fetch: ${error}`)
+        res.status(500).json({
+            _message: error._message,
+            name: error.name,
+            message: error.message
+        });
+    });
+});
+log.info(`Tasks GET endpoint ${props.endpoints.tasks} registered`);
 
 const defaultPort = process.env.PORT || props.server.defaultPort;
 app.listen(defaultPort, () => {

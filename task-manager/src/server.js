@@ -35,8 +35,7 @@ app.post(props.endpoints.users, (req, res) => {
         res.json(userToSave);
     }).catch((error) => {
         log.error(`Something went wrong. Review the saving: ${error}`)
-        res.status(400);
-        res.json({
+        res.status(400).json({
             _message: error._message,
             name: error.name,
             message: error.message
@@ -44,6 +43,24 @@ app.post(props.endpoints.users, (req, res) => {
     });       
 });
 log.info(`Users endpoint ${props.endpoints.users} registered`);
+
+app.post(props.endpoints.tasks, (req, res) => {
+    log.info(`POST request received to ${props.endpoints.tasks} endpoint`);
+    const taskToSave = new Task(req.body);
+    log.info(`Task to save: ${JSON.stringify(taskToSave)}`);
+    taskToSave.save().then(() => {
+        log.info(`Task correctly saved: ${JSON.stringify(taskToSave)}`);
+        res.json(taskToSave);
+    }).catch((error) => {
+        log.error(`Something went wrong. Review the saving: ${error}`)
+        res.status(400).json({
+            _message: error._message,
+            name: error.name,
+            message: error.message
+        });
+    });       
+});
+log.info(`Tasks endpoint ${props.endpoints.tasks} registered`);
 
 const defaultPort = process.env.PORT || props.server.defaultPort;
 app.listen(defaultPort, () => {

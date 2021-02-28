@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { isEmail, isStrongPassword } = require('validator');
 
-const User = mongoose.model('User', {
+module.exports = mongoose.model('User', {
     name: { 
         type: String,
         trim: true
@@ -39,5 +39,3 @@ const User = mongoose.model('User', {
         }
     }
 });
-
-module.exports = User;

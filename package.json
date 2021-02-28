@@ -4,8 +4,10 @@
   "description": "Workspace for The Complete Node.js Developer Course",
   "main": "index.js",
   "scripts": {
-    "start_server": "cd web-server && npm run start && cd ../",
-    "start_sever_dev": "cd web-server && npm run start_dev && cd ../"
+    "start_weather_server": "cd web-server && npm run start && cd ../",
+    "start_weather_sever_dev": "cd web-server && npm run start_dev && cd ../",
+    "start_task_mgnr_server": "cd task-manager && npm run start && cd ../",
+    "start_task_mgnr_server_dev": "cd task-manager && npm run start_dev && cd ../"
   },
   "repository": {
     "type": "git",

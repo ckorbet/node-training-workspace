@@ -6,5 +6,12 @@
         "port": 27017,
         "tmDbName": "task-manager",
         "tmaDbName": "task-manager-api"
+    },
+    "server": {
+        "defaultPort": 3000
+    },
+    "endpoints": {
+        "health": "/health",
+        "users": "/users"
     }
 }

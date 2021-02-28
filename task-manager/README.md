@@ -17,10 +17,11 @@ At the moment of this training/course:
 * [NPM 6.11.3](https://www.npmjs.com/)
 * [Node.js v14.15.3](https://nodejs.org/es/)
 * [NVM 1.1.7](https://github.com/nvm-sh/nvm)
-* [Nodemon 2.0.2](https://www.npmjs.com/package/nodemon) _(global - W10 isntallation problems !!)_
+* [Nodemon 2.0.7](https://www.npmjs.com/package/nodemon) _(global - W10 isntallation problems !!)_
 * [Winston 3.3.3](https://github.com/winstonjs/winston)
 * [Mongodb 3.6.4](https://www.npmjs.com/package/mongodb)
 * [Mongoose 5.11.18](https://mongoosejs.com/) _(also see [Mongoose at npm](https://www.npmjs.com/package/mongoose))_
 * [Validator 13.5.2](https://www.npmjs.com/package/validator)
+* [Express 4.17.1](http://expressjs.com/)
 
 _([back to main README](../README.md))_

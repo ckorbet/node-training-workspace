@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { isEmail, isStrongPassword } = require('validator');
 
 const properties = require('../../resources/properties.json');
 const log = require('../utils/winston');
@@ -28,89 +27,31 @@ mongoose.connect(connectionUrl, {
     log.error(`Mongoose connection failed: ${JSON.stringify(error)}`);
 });
 
+// // Following lines instantiate a User
+// const theUser = new User({
+//     name: '    Carlitos   ',
+//     lastName: 'Way',
+//     age: 38,
+//     email: 'Carlitos@email.com',
+//     password: 'abcDefg_183305'
+// });
+// log.info(`Mongoose "User" model instantiated: ${JSON.stringify(theUser)}`);
 
-// Following lines creates de mongoose model
-const User = mongoose.model('User', {
-    name: { 
-        type: String,
-        trim: true
-    },  
-    lastName: { 
-        type: String,
-        trim: true
-    },
-    age: { 
-        type: Number,
-        min: 0,
-    },
-    email: { 
-        type: String, 
-        required: true,
-        trim: true,
-        lowercase: true,
-        validate: {
-            validator: value => {
-              return isEmail(value);
-            },
-            message: props => `${props.value} is not a valid email`
-          },
-    },
-    password: {
-        type: String,
-        required: true,
-        trim: true,
-        minLength: 8,
-        validate: {
-            validator: value => {
-                return isStrongPassword(value) && !value.includes('password');
-            },
-            message: props => `${props.value} is not a strong password`
-        }
-    }
-});
-log.info('Mongoose "User" model created');
+// theUser.save().then(() => {
+//     log.info(`User correctly saved: ${JSON.stringify(theUser)}`)
+// }).catch((error) => {
+//     log.error(`Something went wrong. Review the saving: ${error}`)
+// });
 
-// Following lines instantiate a User
-const theUser = new User({
-    name: '    Carlitos   ',
-    lastName: 'Way',
-    age: 38,
-    email: 'Carlitos@email.com',
-    password: 'abcDefg_183305'
-});
-log.info(`Mongoose "User" model instantiated: ${JSON.stringify(theUser)}`);
+// const theTask = new Task({
+//     title: 'Mongoose task',
+//     description: 'Task to mess aroung mongoose models',
+//     completed: true
+// });
+// log.info(`Mongoose "Task" model instantiated: ${JSON.stringify(theTask)}`);
 
-theUser.save().then(() => {
-    log.info(`User correctly saved: ${JSON.stringify(theUser)}`)
-}).catch((error) => {
-    log.error(`Something went wrong. Review the saving: ${error}`)
-});
-
-const Task = mongoose.model('Task', {
-    title: { 
-        type: String,
-        required: true
-    },
-    description: { type: String },
-    completed: { 
-        type: Boolean,
-        default: false
-    },
-});
-log.info('Mongoose "Task" model created');
-
-const theTask = new Task({
-    title: 'Mongoose task',
-    description: 'Task to mess aroung mongoose models',
-    completed: true
-});
-log.info(`Mongoose "Task" model instantiated: ${JSON.stringify(theTask)}`);
-
-theTask.save().then(() => {
-    log.info(`Task correctly saved: ${JSON.stringify(theTask)}`)
-}).catch((error) => {
-    log.error(`Something went wrong. Review the saving: ${error}`)
-});
-
-
-
+// theTask.save().then(() => {
+//     log.info(`Task correctly saved: ${JSON.stringify(theTask)}`)
+// }).catch((error) => {
+//     log.error(`Something went wrong. Review the saving: ${error}`)
+// });

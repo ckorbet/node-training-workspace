@@ -60,6 +60,52 @@ app.get(props.endpoints.users, (req, res) => {
 });
 log.info(`Users GET endpoint ${props.endpoints.users} registered`);
 
+app.get(props.endpoints.user, (req, res) => {
+    log.info(`GET request received to ${props.endpoints.user} endpoint with params ${JSON.stringify(req.params)}`);
+    const idToFetch = req.params.id;
+    if(idToFetch) {
+        User.findById(idToFetch).then((user) => {
+            log.info(`User correctly fetched: ${JSON.stringify(user)}`);
+            res.json(user);
+        }).catch((error) => {
+            log.error(`Something went wrong. Review the fetch: ${error}`)
+            res.status(500).json({
+                _message: error._message,
+                name: error.name,
+                message: error.message
+            });
+        });
+    } else {
+        res.status(400).json({
+            message: 'Missing required id route param'
+        });
+    }
+});
+log.info(`User GET endpoint ${props.endpoints.user} registered`);
+
+app.get(props.endpoints.task, (req, res) => {
+    log.info(`GET request received to ${props.endpoints.task} endpoint with params ${JSON.stringify(req.params)}`);
+    const idToFetch = req.params.id;
+    if(idToFetch) {
+        Task.findById(idToFetch).then((task) => {
+            log.info(`User correctly fetched: ${JSON.stringify(task)}`);
+            res.json(task);
+        }).catch((error) => {
+            log.error(`Something went wrong. Review the fetch: ${error}`)
+            res.status(500).json({
+                _message: error._message,
+                name: error.name,
+                message: error.message
+            });
+        });
+    } else {
+        res.status(400).json({
+            message: 'Missing required id route param'
+        });
+    }
+});
+log.info(`Task GET endpoint ${props.endpoints.task} registered`);
+
 app.post(props.endpoints.tasks, (req, res) => {
     log.info(`POST request received to ${props.endpoints.tasks} endpoint`);
     const taskToSave = new Task(req.body);

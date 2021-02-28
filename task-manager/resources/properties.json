@@ -13,6 +13,8 @@
     "endpoints": {
         "health": "/health",
         "users": "/users",
-        "tasks": "/tasks"
+        "user": "/users/:id",
+        "tasks": "/tasks",
+        "task": "/tasks/:id"
     }
 }

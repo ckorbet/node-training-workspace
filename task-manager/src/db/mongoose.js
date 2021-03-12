@@ -21,6 +21,7 @@ mongoose.connect(connectionUrl, {
     // auth: {
     //     authdb: admin
     // }
+    useFindAndModify: false
 }).then(() => {
     log.info(`Mongoose connection established: ${connectionUrl}`);
 }).catch((error) => {

@@ -7,7 +7,11 @@ const dbName = `${properties.mongo.tmDbName}`;
 
 MongoClient.connect(
   connectionURL,
-  { useNewUrlParser: true, useUnifiedTopology: true },
+  { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    useFindAndModify: false
+  },
   (err, client) => {
     if (err) {
       return log.error(err);

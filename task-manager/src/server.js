@@ -88,7 +88,7 @@ app.get(props.endpoints.task, (req, res) => {
     const idToFetch = req.params.id;
     if(idToFetch) {
         Task.findById(idToFetch).then((task) => {
-            log.info(`User correctly fetched: ${JSON.stringify(task)}`);
+            log.info(`Task correctly fetched: ${JSON.stringify(task)}`);
             res.json(task);
         }).catch((error) => {
             log.error(`Something went wrong. Review the fetch: ${error}`)

@@ -119,12 +119,68 @@ app.get(props.endpoints.user, async (req, res) => {
 });
 log.info(`User GET endpoint ${props.endpoints.user} registered`);
 
+
+app.patch(props.endpoints.user, async (req, res) => {
+    log.info(`PATCH request received to ${props.endpoints.user} endpoint with params ${JSON.stringify(req.params)}`);
+    if(req.params) {
+        if(req.body) {
+            const updates = Object.keys(req.body);
+            const isValidUpdate = updates.every(update => props.model.User.allowedUpdates.includes(update));
+            if(isValidUpdate) {
+                try {
+                    const user = await User.findByIdAndUpdate(
+                        req.params.id, // the id to be search
+                        req.body, // the info to be updated
+                        {// options
+                            new: true, // to return the object just updated
+                            runValidators: true // to perform validations before update
+                        });
+                    if(user) {
+                        log.info(`User correctly updated: ${user}`);
+                        res.json(user);
+                    } else {
+                        log.error('User not found or updated. Review the request')
+                        res.status(404).json({
+                            message: 'User not found'
+                        });    
+                    }    
+                } catch (error) {
+                    log.error(`Something went wrong. Review the update: ${error}`)
+                    res.status(500).json({
+                        _message: error._message,
+                        name: error.name,
+                        message: error.message
+                    });
+                }
+                
+            } else {
+                log.warn(`Something went wrong. Review allowed updates`)
+                res.status(400).json({
+                    message: 'Updated invalid or not allowed'
+                });
+            }
+        } else {
+            log.warn(`Something went wrong. Review the body request`)
+            res.status(400).json({
+                message: 'Request body required'
+            });
+        }
+    } else {
+        log.warn(`Something went wrong. Review id param`)
+        res.status(400).json({
+            message: 'Id request param required'
+        });
+    }
+    
+});
+log.info(`User PATH endpoint ${props.endpoints.user} registered`);
+
 app.get(props.endpoints.task, async (req, res) => {
     log.info(`GET request received to ${props.endpoints.task} endpoint with params ${JSON.stringify(req.params)}`);
     const idToFetch = req.params.id;
     if(idToFetch) {
         try {
-            const task = await Task.findById(idToFetch);
+            const task = await Task.findById(idToFetch); 
             log.info(`Task correctly fetched: ${JSON.stringify(task)}`);
             res.json(task);    
         } catch (error) {

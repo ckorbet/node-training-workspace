@@ -16,5 +16,13 @@
         "user": "/users/:id",
         "tasks": "/tasks",
         "task": "/tasks/:id"
+    },
+    "model": {
+        "User": {
+            "allowedUpdates": [ "name", "email", "password", "age" ]
+        },
+        "Task": {
+            "allowedUpdates": [ "title", "description" ]
+        }
     }
 }

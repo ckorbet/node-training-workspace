@@ -14,7 +14,7 @@ module.exports = createLogger({
     ),
     defaultMeta: { service: 'task-manager' },
     transports: [
-        new transports.File({ filename: `./logs/task_manager_${new Date().toISOString().replace(/:/g, '-').replace('.', '-')}.log` }),
+        // new transports.File({ filename: `./logs/task_manager_${new Date().toISOString().replace(/:/g, '-').replace('.', '-')}.log` }),
         new transports.Console()
     ],
 });

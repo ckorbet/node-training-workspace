@@ -10,6 +10,15 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Piros\",\r\n    \"lastName\": \"Dymas\",\r\n    \"age\": 38,\r\n    \"email\": \"piros@dymas.com\",\r\n    \"password\": \"/%$$%)HKGBJ¡¡¡5GHkj\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "http://localhost:3000/users",
 					"protocol": "http",
@@ -50,7 +59,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"title\": \"Firt task\",\n\t\"description\": \"First task to be created in mongdb through post request\"\n}",
+					"raw": "{\n\t\"title\": \"Sixth task\",\n\t\"description\": \"Sixth task to be created in mongdb through post request\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -151,7 +160,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/users/603b8526c977f62ef1e7bcdc",
+					"raw": "http://localhost:3000/users/60548317930dae487416b215",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -159,7 +168,7 @@
 					"port": "3000",
 					"path": [
 						"users",
-						"603b8526c977f62ef1e7bcdc"
+						"60548317930dae487416b215"
 					]
 				}
 			},
@@ -183,7 +192,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/tasks/603b84fec977f62ef1e7bcdb",
+					"raw": "http://localhost:3000/tasks/605486b185e560bb98d7d6ab",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -191,12 +200,11 @@
 					"port": "3000",
 					"path": [
 						"tasks",
-						"603b84fec977f62ef1e7bcdb"
+						"605486b185e560bb98d7d6ab"
 					]
 				}
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

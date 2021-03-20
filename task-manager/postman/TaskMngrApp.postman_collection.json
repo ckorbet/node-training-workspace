@@ -213,6 +213,35 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"Nepomuceno\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/603b8526c977f62ef1e7bcdc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"603b8526c977f62ef1e7bcdc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User Copy",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
 					"raw": "{\r\n        \"name\": \"Rigoberto\"\r\n}",
 					"options": {
 						"raw": {
@@ -230,6 +259,75 @@
 					"path": [
 						"users",
 						"603b8526c977f62ef1e7bcdc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Task",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Qué carallo está pasando\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/tasks/60547ce5512a3e6b10735fd8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tasks",
+						"60547ce5512a3e6b10735fd8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Task",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/users/603b8526c977f62ef1e7bcdc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"603b8526c977f62ef1e7bcdc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Task Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/tasks/60547ce5512a3e6b10735fd8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tasks",
+						"60547ce5512a3e6b10735fd8"
 					]
 				}
 			},

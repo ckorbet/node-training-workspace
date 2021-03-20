@@ -22,7 +22,7 @@
             "allowedUpdates": [ "name", "email", "password", "age" ]
         },
         "Task": {
-            "allowedUpdates": [ "title", "description" ]
+            "allowedUpdates": [ "title", "description", "completed" ]
         }
     }
 }

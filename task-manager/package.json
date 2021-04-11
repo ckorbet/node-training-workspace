@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/server.js",
-    "start_dev": "nodemon ./src/server.js -e js,json"
+    "start_dev": "nodemon ./src/server.js -e js,json",
+    "init_mongobdb": "docker run -it -d --name mongodb -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=mongoadmin -e MONGO_INITDB_ROOT_PASSWORD=secret mongo"
   },
   "keywords": [],
   "author": {

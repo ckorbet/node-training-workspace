@@ -23,19 +23,7 @@ router.post(props.endpoints.tasks, async (req, res) => {
             name: error.name,
             message: error.message
         });
-    }
-
-    // taskToSave.save().then(() => {
-    //     log.info(`Task correctly saved: ${JSON.stringify(taskToSave)}`);
-    //     res.json(taskToSave);
-    // }).catch((error) => {
-    //     log.error(`Something went wrong. Review the saving: ${error}`)
-    //     res.status(400).json({
-    //         _message: error._message,
-    //         name: error.name,
-    //         message: error.message
-    //     });
-    // });       
+    }     
 });
 log.info(`Tasks POST endpoint ${props.endpoints.tasks} registered`);
 
@@ -53,18 +41,6 @@ router.get(props.endpoints.tasks, async (req, res) => {
             message: error.message
         });
     }
-
-    // Task.find({}).then((tasks) => {
-    //     log.info('Tasks correctly fetched');
-    //     res.json(tasks);
-    // }).catch((error) => {
-    //     log.error(`Something went wrong. Review the fetch: ${error}`)
-    //     res.status(500).json({
-    //         _message: error._message,
-    //         name: error.name,
-    //         message: error.message
-    //     });
-    // });
 });
 log.info(`Tasks GET endpoint ${props.endpoints.tasks} registered`);
 
@@ -83,19 +59,7 @@ router.get(props.endpoints.task, async (req, res) => {
                 name: error.name,
                 message: error.message
             });
-        }        
-
-        // Task.findById(idToFetch).then((task) => {
-        //     log.info(`Task correctly fetched: ${JSON.stringify(task)}`);
-        //     res.json(task);
-        // }).catch((error) => {
-        //     log.error(`Something went wrong. Review the fetch: ${error}`)
-        //     res.status(500).json({
-        //         _message: error._message,
-        //         name: error.name,
-        //         message: error.message
-        //     });
-        // });
+        }
     } else {
         res.status(400).json({
             message: 'Missing required id route param'
@@ -110,22 +74,25 @@ router.patch(props.endpoints.task, async (req, res) => {
         if(req.body) {            
             if(Object.keys(req.body).every(update => props.model.Task.allowedUpdates.includes(update))) {
                 try {
-                    const task = await Task.findByIdAndUpdate(
-                        req.params.id,
-                        req.body,
-                        {
-                            new: true, 
-                            runValidators: true 
-                        });
+                    const task = await Task.findById(req.params.id);
                     if(task) {
-                        log.info(`Task correctly updated: ${task}`);
-                        res.json(task);
+                        Object.keys(req.body).forEach(update => { task[update] = req.body[update]});
+                        const savedTask = await task.save();
+                        if(savedTask) {
+                            log.info(`Task correctly updated: ${savedTask}`);
+                            res.json(savedTask);
+                        } else {
+                            log.error('Task not updated. Review the request')
+                            res.status(404).json({
+                                message: 'Task not updated'
+                            });
+                        }
                     } else {
-                        log.error('Task not found or updated. Review the request')
+                        log.error('Task not found. Review the request')
                         res.status(404).json({
-                            message: 'Task not found or updated'
+                            message: 'Task not found'
                         });    
-                    }    
+                    } 
                 } catch (error) {
                     log.error(`Something went wrong. Review the update: ${error}`)
                     res.status(500).json({

@@ -15,6 +15,21 @@ require('./db/mongoose');
 const app = express();
 log.info('Express app server created');
 
+// Function to handle jwt and authentication
+// app.use((req, res, next) => {
+//     if(req.method === 'GET') {
+
+//     } else {
+//         next();
+//     }
+// });
+
+app.use((req, res, next) => {
+    log.info(`Request received to status DOWN`);
+    res.status(503).json({ status: 'DOWN'});
+});
+
+
 app.use(express.json());
 log.info('Express app server configured for json');
 

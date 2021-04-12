@@ -37,7 +37,7 @@ const userSchema = mongoose.Schema({
         minLength: 8,
         validate: {
             validator: value => {
-                return isStrongPassword(value) && !value.includes('password');
+                return /*isStrongPassword(value) && */ !value.includes('password');
             },
             message: props => `${props.value} is not a strong password`
         }

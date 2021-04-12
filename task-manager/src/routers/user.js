@@ -13,7 +13,8 @@ router.post(props.endpoints.users, async (req, res) => {
     const userToSave = new User(req.body);
     log.info(`User to save: ${JSON.stringify(userToSave)}`);
     try {
-        await userToSave.save();
+        const savedUser = await userToSave.save();
+        await savedUser.generateAuthToken();
         log.info(`User correctly saved: ${JSON.stringify(userToSave)}`);
         res.json(userToSave);
     } catch(error) {
@@ -33,7 +34,8 @@ router.post(props.endpoints.login, async (req, res) => {
         if(Object.keys(req.body).every(loginProp => props.model.User.loginProps.includes(loginProp))) { 
             try {
                 const user = await User.findByCredentials(req.body.email, req.body.password);
-                res.json(user);
+                await user.generateAuthToken();
+                res.json({user});
             } catch(error) {
                 log.error(`${JSON.stringify(error, null, 2)}`);
                 res.status(400).json(error);

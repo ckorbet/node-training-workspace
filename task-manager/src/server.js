@@ -24,10 +24,10 @@ log.info('Express app server created');
 //     }
 // });
 
-app.use((req, res, next) => {
-    log.info(`Request received to status DOWN`);
-    res.status(503).json({ status: 'DOWN'});
-});
+// app.use((req, res, next) => {
+//     log.info(`Request received to status DOWN`);
+//     res.status(503).json({ status: 'DOWN'});
+// });
 
 
 app.use(express.json());

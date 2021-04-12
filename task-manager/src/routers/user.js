@@ -1,6 +1,7 @@
 const express = require('express');
 const { Router, response } = require('express');
 const User = require('../models/User');
+const auth = require('../middleware/auth');
 
 const props = require('../../resources/properties.json');
 const log = require('../utils/winston');
@@ -55,7 +56,11 @@ router.post(props.endpoints.login, async (req, res) => {
 });
 log.info(`Login POST endpoint ${props.endpoints.login} registered`);
 
-router.get(props.endpoints.users, async (req, res) => {
+/*
+ * 'auth' is the middleware function, which always go as second argument.
+ * Third function will only be invoked when next() is called from inside 'auth'
+ */
+router.get(props.endpoints.users, auth, async (req, res) => {
     log.info(`GET request received to ${props.endpoints.users} endpoint`);
     try {
         const users = await User.find({}); 

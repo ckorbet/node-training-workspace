@@ -24,5 +24,6 @@ At the moment of this training/course:
 * [Validator 13.5.2](https://www.npmjs.com/package/validator)
 * [Express 4.17.1](http://expressjs.com/)
 * [Bcryptjs 2.4.3](https://www.npmjs.com/package/bcryptjs)
+* [Jsonwebtoken 8.5.1](https://www.npmjs.com/package/jsonwebtoken)
 
 _([back to main README](../README.md))_

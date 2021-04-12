@@ -7,6 +7,19 @@
 	"item": [
 		{
 			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.code === 201) {\r",
+							"    pm.environment.set('authToken', pm.response.json().token);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -20,14 +33,56 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/users",
+					"raw": "http://{{host}}:{{port}}/users",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "3000",
+					"port": "{{port}}",
 					"path": [
 						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.code === 200) {\r",
+							"    pm.environment.set('authToken', pm.response.json().token);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"piros@dymas.com\",\r\n    \"password\": \"/%$$%)HKGBJ¡¡¡5GHkj\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/users/login",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"users",
+						"login"
 					]
 				}
 			},
@@ -39,12 +94,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/health",
+					"raw": "http://{{host}}:{{port}}/health",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "3000",
+					"port": "{{port}}",
 					"path": [
 						"health"
 					]
@@ -67,12 +122,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/tasks",
+					"raw": "http://{{host}}:{{port}}/tasks",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "3000",
+					"port": "{{port}}",
 					"path": [
 						"tasks"
 					]
@@ -98,12 +153,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/users",
+					"raw": "http://{{host}}:{{port}}/users",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "3000",
+					"port": "{{port}}",
 					"path": [
 						"users"
 					]
@@ -129,12 +184,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/tasks",
+					"raw": "http://{{host}}:{{port}}/tasks",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "3000",
+					"port": "{{port}}",
 					"path": [
 						"tasks"
 					]
@@ -160,12 +215,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/users/60548317930dae487416b215",
+					"raw": "http://{{host}}:{{port}}/users/60548317930dae487416b215",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "3000",
+					"port": "{{port}}",
 					"path": [
 						"users",
 						"60548317930dae487416b215"
@@ -192,12 +247,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/tasks/605486b185e560bb98d7d6ab",
+					"raw": "http://{{host}}:{{port}}/tasks/605486b185e560bb98d7d6ab",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "3000",
+					"port": "{{port}}",
 					"path": [
 						"tasks",
 						"605486b185e560bb98d7d6ab"
@@ -221,12 +276,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/users/603b8526c977f62ef1e7bcdc",
+					"raw": "http://{{host}}:{{port}}/users/603b8526c977f62ef1e7bcdc",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "3000",
+					"port": "{{port}}",
 					"path": [
 						"users",
 						"603b8526c977f62ef1e7bcdc"
@@ -250,12 +305,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/users/603b8526c977f62ef1e7bcdc",
+					"raw": "http://{{host}}:{{port}}/users/603b8526c977f62ef1e7bcdc",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "3000",
+					"port": "{{port}}",
 					"path": [
 						"users",
 						"603b8526c977f62ef1e7bcdc"
@@ -279,12 +334,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/tasks/60547ce5512a3e6b10735fd8",
+					"raw": "http://{{host}}:{{port}}/tasks/60547ce5512a3e6b10735fd8",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "3000",
+					"port": "{{port}}",
 					"path": [
 						"tasks",
 						"60547ce5512a3e6b10735fd8"
@@ -299,12 +354,12 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/users/603b8526c977f62ef1e7bcdc",
+					"raw": "http://{{host}}:{{port}}/users/603b8526c977f62ef1e7bcdc",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "3000",
+					"port": "{{port}}",
 					"path": [
 						"users",
 						"603b8526c977f62ef1e7bcdc"
@@ -319,12 +374,12 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/tasks/60547ce5512a3e6b10735fd8",
+					"raw": "http://{{host}}:{{port}}/tasks/60547ce5512a3e6b10735fd8",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "3000",
+					"port": "{{port}}",
 					"path": [
 						"tasks",
 						"60547ce5512a3e6b10735fd8"
@@ -332,35 +387,36 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		},
 		{
-			"name": "Login User",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"piros@dymas.com\",\r\n    \"password\": \"/%$$%)HKGBJ¡¡¡5GHkj\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/users/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"users",
-						"login"
-					]
-				}
-			},
-			"response": []
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

@@ -35,8 +35,8 @@ router.post(props.endpoints.login, async (req, res) => {
         if(Object.keys(req.body).every(loginProp => props.model.User.loginProps.includes(loginProp))) { 
             try {
                 const user = await User.findByCredentials(req.body.email, req.body.password);
-                await user.generateAuthToken();
-                res.json({user});
+                const token = await user.generateAuthToken();
+                res.json({user, token});
             } catch(error) {
                 log.error(`${JSON.stringify(error, null, 2)}`);
                 res.status(400).json(error);

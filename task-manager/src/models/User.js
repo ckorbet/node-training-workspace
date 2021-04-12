@@ -63,6 +63,7 @@ userSchema.methods.generateAuthToken = async function () {
     this.tokens = this.tokens.concat({ token });
     await this.save();
     log.info('JWT token saved');
+    return token;
 };
 
 /*

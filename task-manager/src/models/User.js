@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
+const bscryptjs = require('bcryptjs');
 const { isEmail, isStrongPassword } = require('validator');
 
-module.exports = mongoose.model('User', {
+const log = require('../utils/winston');
+
+const userSchema = mongoose.Schema({
     name: { 
         type: String,
         trim: true
@@ -39,3 +42,15 @@ module.exports = mongoose.model('User', {
         }
     }
 });
+
+// IMPORTANT: Arrow function cannot be used because they change the scope of 'this' 
+userSchema.pre('save', async function (next) {
+    const user = this;
+    if(user.isModified('password')) {
+        user.password = await bscryptjs.hash(user.password, 8);
+        log.info('Password hashed');
+    }
+    next();
+});
+
+module.exports = mongoose.model('User', userSchema);

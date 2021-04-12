@@ -25,10 +25,10 @@ app.get(props.endpoints.health, (req, res) => {
 log.info(`Health check endpoint ${props.endpoints.health} registered`);
 
 app.use(require('./routers/user'));
-log.info(`User router registered registered`);
+log.info('User router registered');
 
 app.use(require('./routers/task'));
-log.info(`Task router registered registered`);
+log.info('Task router registered');
 
 const defaultPort = process.env.PORT || props.server.defaultPort;
 app.listen(defaultPort, () => {

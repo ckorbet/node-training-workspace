@@ -109,18 +109,23 @@ router.patch(props.endpoints.user, async (req, res) => {
         if(req.body) {            
             if(Object.keys(req.body).every(update => props.model.User.allowedUpdates.includes(update))) {
                 try {
-                    const user = await User.findByIdAndUpdate(
-                        req.params.id, // the id to be search
-                        req.body, // the info to be updated
-                        {// options
-                            new: true, // to return the object just updated
-                            runValidators: true // to perform validations before update
-                        });
+                    // Modification required in order to execute password hashing pre-hook
+                    const user = await User.findById(req.params.id);                    
                     if(user) {
-                        log.info(`User correctly updated: ${user}`);
-                        res.json(user);
+                        Object.keys(req.body).forEach(update => { user[update] = req.body[update]});
+                        // props.model.User.allowedUpdates.forEach(update => { user[update] = req.body[update]});
+                        const savedUser = await user.save();
+                        if(savedUser) {
+                            log.info(`User correctly updated: ${savedUser}`);
+                            res.json(savedUser);
+                        } else {
+                            log.error('User not updated. Review the request')
+                            res.status(404).json({
+                                message: 'User not found or updated'
+                            });
+                        }
                     } else {
-                        log.error('User not found or updated. Review the request')
+                        log.error('User not found. Review the request')
                         res.status(404).json({
                             message: 'User not found or updated'
                         });    

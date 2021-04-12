@@ -23,5 +23,6 @@ At the moment of this training/course:
 * [Mongoose 5.11.18](https://mongoosejs.com/) _(also see [Mongoose at npm](https://www.npmjs.com/package/mongoose))_
 * [Validator 13.5.2](https://www.npmjs.com/package/validator)
 * [Express 4.17.1](http://expressjs.com/)
+* [Bcryptjs 2.4.3](https://www.npmjs.com/package/bcryptjs)
 
 _([back to main README](../README.md))_

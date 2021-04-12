@@ -19,6 +19,7 @@ const userSchema = mongoose.Schema({
     },
     email: { 
         type: String, 
+        unique: true,
         required: true,
         trim: true,
         lowercase: true,
@@ -42,6 +43,20 @@ const userSchema = mongoose.Schema({
         }
     }
 });
+
+// IMPORTANT: Arrow function cannot be used because they change the scope of 'this' 
+userSchema.statics.findByCredentials = async function (email, password) {
+    const user = await this.findOne({ email });
+    if (!user) {
+        throw new Error('Unable to login');
+    }
+    log.info('User to login found');
+    const isMatch = await bscryptjs.compare(password, user.password);
+    if(!isMatch) {
+        throw new Error('Unable to login');
+    }
+    return user;
+};
 
 // IMPORTANT: Arrow function cannot be used because they change the scope of 'this' 
 userSchema.pre('save', async function (next) {

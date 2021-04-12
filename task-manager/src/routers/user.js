@@ -1,5 +1,5 @@
 const express = require('express');
-const { Router } = require('express');
+const { Router, response } = require('express');
 const User = require('../models/User');
 
 const props = require('../../resources/properties.json');
@@ -23,20 +23,35 @@ router.post(props.endpoints.users, async (req, res) => {
             name: error.name,
             message: error.message
         });
-    }    
-    // userToSave.save().then(() => {
-    //     log.info(`User correctly saved: ${JSON.stringify(userToSave)}`);
-    //     res.json(userToSave);
-    // }).catch((error) => {
-    //     log.error(`Something went wrong. Review the saving: ${error}`)
-    //     res.status(400).json({
-    //         _message: error._message,
-    //         name: error.name,
-    //         message: error.message
-    //     });
-    // });       
+    }     
 });
 log.info(`Users POST endpoint ${props.endpoints.users} registered`);
+
+router.post(props.endpoints.login, async (req, res) => {
+    log.info(`POST request received to ${props.endpoints.login}`);
+    if(req.body) {
+        if(Object.keys(req.body).every(loginProp => props.model.User.loginProps.includes(loginProp))) { 
+            try {
+                const user = await User.findByCredentials(req.body.email, req.body.password);
+                res.json(user);
+            } catch(error) {
+                log.error(`${JSON.stringify(error, null, 2)}`);
+                res.status(400).json(error);
+            }
+        } else {
+            log.warn('Missing required email and password')
+            res.status(400).json({
+                message: 'Missing required email and password'
+            });
+        }
+    } else {
+        log.warn('Missing required email and password')
+        res.status(400).json({
+            message: 'Missing required email and password'
+        });
+    }
+});
+log.info(`Login POST endpoint ${props.endpoints.login} registered`);
 
 router.get(props.endpoints.users, async (req, res) => {
     log.info(`GET request received to ${props.endpoints.users} endpoint`);
@@ -52,18 +67,6 @@ router.get(props.endpoints.users, async (req, res) => {
             message: error.message
         });
     }
-
-    // User.find({}).then((users) => {
-    //     log.info('Users correctly fetched');
-    //     res.json(users);
-    // }).catch((error) => {
-    //     log.error(`Something went wrong. Review the fetch: ${error}`)
-    //     res.status(500).json({
-    //         _message: error._message,
-    //         name: error.name,
-    //         message: error.message
-    //     });
-    // });
 });
 log.info(`Users GET endpoint ${props.endpoints.users} registered`);
 
@@ -83,18 +86,6 @@ router.get(props.endpoints.user, async (req, res) => {
                 message: error.message
             });
         }
-
-        // User.findById(idToFetch).then((user) => {
-        //     log.info(`User correctly fetched: ${JSON.stringify(user)}`);
-        //     res.json(user);
-        // }).catch((error) => {
-        //     log.error(`Something went wrong. Review the fetch: ${error}`)
-        //     res.status(500).json({
-        //         _message: error._message,
-        //         name: error.name,
-        //         message: error.message
-        //     });
-        // });
     } else {
         res.status(400).json({
             message: 'Missing required id route param'
@@ -113,7 +104,6 @@ router.patch(props.endpoints.user, async (req, res) => {
                     const user = await User.findById(req.params.id);                    
                     if(user) {
                         Object.keys(req.body).forEach(update => { user[update] = req.body[update]});
-                        // props.model.User.allowedUpdates.forEach(update => { user[update] = req.body[update]});
                         const savedUser = await user.save();
                         if(savedUser) {
                             log.info(`User correctly updated: ${savedUser}`);

@@ -14,12 +14,14 @@
         "health": "/health",
         "users": "/users",
         "user": "/users/:id",
+        "login": "/users/login",
         "tasks": "/tasks",
         "task": "/tasks/:id"
     },
     "model": {
         "User": {
-            "allowedUpdates": [ "name", "email", "password", "age" ]
+            "allowedUpdates": [ "name", "email", "password", "age" ],
+            "loginProps": [ "email", "password" ]
         },
         "Task": {
             "allowedUpdates": [ "title", "description", "completed" ]
